@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { Archive } from './components/Archive';
+import { Inputform } from './components/Inputform';
+import { Total } from './components/Total';
+export const App = () => {
+  const [records, setRecords] = useState([]);
 
-function App() {
-  const [count, setCount] = useState(0)
+  const [detail, setDetail] = useState('');
+  const [time, setTime] = useState(0);
+  const [error, setError] = useState('');
+  const [isCheckValue, setIsCheckValue] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
+
+  const onChangeDetailValue = (event) => setDetail(event.target.value);
+  const onChangeTimeValue = (event) => setTime(event.target.value);
+  const onClickRegistration = () => {
+    if (detail === '' || time === 0) {
+      setError('入力項目が正しくありません');
+      setIsCheckValue(true);
+      return;
+    } else {
+      setIsCheckValue(false);
+    }
+    const newRecord = { title: detail, time };
+    const newRecords = [...records, newRecord];
+    setRecords(newRecords);
+    setDetail('');
+    setTime(0);
+    console.log(time);
+    setTotalTime(parseInt(totalTime) + parseInt(time));
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Inputform detail={detail} time={time} onChangeDetailValue={onChangeDetailValue} onChangeTimeValue={onChangeTimeValue} onClickRegistration={onClickRegistration} isCheckValue={isCheckValue} error={error} totalTime={totalTime} />
+      <Archive records={records} />
+      <Total totalTime={totalTime} />
     </>
-  )
-}
-
-export default App
+  );
+};
