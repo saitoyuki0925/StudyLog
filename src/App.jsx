@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { Archive } from './components/Archive';
 import { Inputform } from './components/Inputform';
+import { Total } from './components/Total';
 export const App = () => {
   const [records, setRecords] = useState([]);
 
@@ -9,6 +10,8 @@ export const App = () => {
   const [time, setTime] = useState(0);
   const [error, setError] = useState('');
   const [isCheckValue, setIsCheckValue] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
+
   const onChangeDetailValue = (event) => setDetail(event.target.value);
   const onChangeTimeValue = (event) => setTime(event.target.value);
   const onClickRegistration = () => {
@@ -23,12 +26,16 @@ export const App = () => {
     const newRecords = [...records, newRecord];
     setRecords(newRecords);
     setDetail('');
+    setTime(0);
+    console.log(time);
+    setTotalTime(parseInt(totalTime) + parseInt(time));
   };
 
   return (
     <>
-      <Inputform detail={detail} time={time} onChangeDetailValue={onChangeDetailValue} onChangeTimeValue={onChangeTimeValue} onClickRegistration={onClickRegistration} isCheckValue={isCheckValue} error={error} />
+      <Inputform detail={detail} time={time} onChangeDetailValue={onChangeDetailValue} onChangeTimeValue={onChangeTimeValue} onClickRegistration={onClickRegistration} isCheckValue={isCheckValue} error={error} totalTime={totalTime} />
       <Archive records={records} />
+      <Total totalTime={totalTime} />
     </>
   );
 };
