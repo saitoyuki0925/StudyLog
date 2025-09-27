@@ -1,16 +1,34 @@
+import { useState } from 'react';
 import './App.css';
 import { Archive } from './components/Archive';
+import { Inputform } from './components/Inputform';
 export const App = () => {
-  // テストデータ
-  const records = [
-    { title: '勉強の記録1', time: 1 },
-    { title: '勉強の記録2', time: 3 },
-    { title: '勉強の記録3', time: 5 },
-  ];
+  const [records, setRecords] = useState([]);
+
+  const [detail, setDetail] = useState('');
+  const [time, setTime] = useState(0);
+  const [error, setError] = useState('');
+  const [isCheckValue, setIsCheckValue] = useState(false);
+  const onChangeDetailValue = (event) => setDetail(event.target.value);
+  const onChangeTimeValue = (event) => setTime(event.target.value);
+  const onClickRegistration = () => {
+    if (detail === '' || time === 0) {
+      setError('入力項目が正しくありません');
+      setIsCheckValue(true);
+      return;
+    } else {
+      setIsCheckValue(false);
+    }
+    const newRecord = { title: detail, time };
+    const newRecords = [...records, newRecord];
+    setRecords(newRecords);
+    setDetail('');
+  };
 
   return (
     <>
-      <Archive records={records}></Archive>
+      <Inputform detail={detail} time={time} onChangeDetailValue={onChangeDetailValue} onChangeTimeValue={onChangeTimeValue} onClickRegistration={onClickRegistration} isCheckValue={isCheckValue} error={error} />
+      <Archive records={records} />
     </>
   );
 };
