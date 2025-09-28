@@ -7,7 +7,7 @@ export const App = () => {
   const [records, setRecords] = useState([]);
 
   const [detail, setDetail] = useState('');
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState('');
   const [error, setError] = useState('');
   const [isCheckValue, setIsCheckValue] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
@@ -15,7 +15,7 @@ export const App = () => {
   const onChangeDetailValue = (event) => setDetail(event.target.value);
   const onChangeTimeValue = (event) => setTime(event.target.value);
   const onClickRegistration = () => {
-    if (detail === '' || time === 0) {
+    if (detail === '' || time === '' || time === '0') {
       setError('入力項目が正しくありません');
       setIsCheckValue(true);
       return;
@@ -26,8 +26,7 @@ export const App = () => {
     const newRecords = [...records, newRecord];
     setRecords(newRecords);
     setDetail('');
-    setTime(0);
-    console.log(time);
+    setTime('');
     setTotalTime(parseInt(totalTime) + parseInt(time));
   };
 
